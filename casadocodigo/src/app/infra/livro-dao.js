@@ -33,7 +33,7 @@ class LivroDao {
       this._db.run(
         `UPDATE LIVROS SET 
           TITULO = ?,
-          PRECO = ?
+          PRECO = ?,
           DESCRICAO = ?
         WHERE ID = ?`,
         [
@@ -62,7 +62,7 @@ class LivroDao {
         (erro, livro) => {
           if (erro)
             return reject('Não foi possível buscar o livro!');
-
+            
           return resolve(livro);
         }
       )
