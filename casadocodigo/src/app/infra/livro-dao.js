@@ -19,12 +19,53 @@ class LivroDao {
         function (erro) {
           if (erro) {
             console.log(erro);
-            return reject('Não foi possível listar os livros!');
+            return reject('Não foi possível inserir os livros!');
           }
           
           resolve();
         }
       );
+    });
+  }
+
+  atualiza(livro) {
+    return new Promise((resolve, reject) => {
+      this._db.run(
+        `UPDATE LIVROS SET 
+          TITULO = ?,
+          PRECO = ?
+          DESCRICAO = ?
+        WHERE ID = ?`,
+        [
+          livro.titulo,
+          livro.preco,
+          livro.descricao,
+          livro.id
+        ],
+        (erro) => {
+          if (erro) {
+            console.log(erro);
+            return reject('Não foi possível atualizar o livro!');
+          }
+          
+          resolve();
+        }
+      )
+    });
+  }
+
+  buscaPorId(id) {
+    return new Promise((resolve, reject) => {
+      this._db.get(
+        'SELECT * FROM LIVROS WHERE ID = ?',
+        [ id ],
+        (erro, livro) => {
+          if (erro)
+            return reject('Não foi possível buscar o livro!');
+
+          return resolve(livro);
+        }
+      )
     });
   }
 
@@ -39,8 +80,24 @@ class LivroDao {
           return resolve(resultados);
         }
       );
+    }); 
+  }
+
+  remove(id) {
+    return new Promise((resolve, reject) => {
+      this._db.get(
+        'DELETE FROM LIVROS WHERE ID = ?',
+        [ id ],
+        (erro) => {
+          if (erro) {
+            console.log(erro);
+            return reject('Não foi possível remover o livro!');
+          }
+          
+          resolve();
+        }
+      );
     });
-    
   }
 }
 
