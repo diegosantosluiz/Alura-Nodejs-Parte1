@@ -36,8 +36,8 @@ module.exports = (app) => {
     console.log(req.body);
     const livroDao = new LivroDao(db);
     livroDao
-      .adicionar(req.body)
-      .then()
+      .adiciona(req.body)
+      .then(resp.redirect('/livros'))
       .catch(erro => console.log(erro));
   });
 };
